@@ -5,8 +5,10 @@
 #include <iostream>
 using namespace std;
 
+Buffer global_buffer;
+
 int Consumer::Tid = 0;
-int Job::id = 0;
+int FakeJob::id = 0;
 
 int main(){
     int buffer_size;
@@ -23,10 +25,6 @@ int main(){
 
     Producer master(max_job_length);
     Consumer slaves[buffer_size];
-
-    master.run();
-    for(int i = 0; i < buffer_size; i++)
-        slaves[i].run();
 
     return 0;
 }

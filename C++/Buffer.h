@@ -1,8 +1,10 @@
 #include <vector>
 #include <pthread.h>
 #include <semaphore.h>
-#include <windows.h>
-#include "Job.h"
+#include <unistd.h>
+#include <ctime>
+#include <iostream>
+#include "FakeJob.h"
 #ifndef BUFFER_H
 #define BUFFER_H
 
@@ -12,11 +14,12 @@ private:
     int front;
     int rear;
     int bufLen;
-    std::vector<Job> Q;
+    std::vector<FakeJob> Q;
     sem_t lock;
     sem_t full;
     sem_t empty;
 public:
+    Buffer(){}
     Buffer(int length);
 
     int getLength(){
@@ -29,8 +32,8 @@ public:
     bool isEmpty(){return bufLen == 0;}
 
 
-    void push(Job job);
-    Job pull();
+    void push(FakeJob job);
+    FakeJob pull();
     void waitNotEmpty();
     void waitNotFull();
     void waitEmpty();

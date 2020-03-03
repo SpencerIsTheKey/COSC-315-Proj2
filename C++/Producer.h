@@ -1,6 +1,5 @@
 #include <pthread.h>
 #include <unistd.h>
-#include <windows.h>
 #include <ctime>
 #include "Buffer.h"
 #include "global.h"
@@ -12,13 +11,15 @@ using namespace std;
 class Producer{
     int numJobs;
     int maxJobLength;
+
+
+public:
     pthread_t thread;
+    Producer(int max_job_length);
 
-    public:Producer(int max_job_length);
 
-
-    void run();
+    void *run();
     void wait();
-    Job CreateJob();
+    FakeJob CreateJob();
 };
 #endif

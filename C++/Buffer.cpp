@@ -1,5 +1,6 @@
 #include "Buffer.h"
 #include <cstdlib>
+#include <iostream>
 
 Buffer::Buffer(int length){
     maxSize = length;
@@ -11,10 +12,9 @@ Buffer::Buffer(int length){
     sem_init(&full, 0, 1);
     sem_init(&empty, 0, 1);
 }
-void Buffer::push(Job job){
+void Buffer::push(FakeJob job){
     sem_wait(&lock);
     if(!isFull()){
-        sem_wait(&lock);
         //increment element tracker (bufLen)
         bufLen++;
         //move rear over by one
@@ -32,14 +32,14 @@ void Buffer::push(Job job){
     sem_post(&lock);
 }
 
-Job Buffer::pull(){
+FakeJob Buffer::pull(){
     sem_wait(&lock);
     //decrement elemnt tracker
     bufLen--;
     //move the front pointer over by one
     front = (front + 1) % maxSize;
 
-    Job pulled = Q[front];
+    FakeJob pulled = Q[front];
     sem_post(&lock);
     //if there are threads waiting for the queue to not be full, signal to wake one up
     int fullVal;
@@ -51,7 +51,8 @@ Job Buffer::pull(){
 }
 
 void Buffer::waitNotFull(){
-    if(isFull){
+    if(isFull()){
+        std::cout << "Waiting until not full...";
         sem_wait(&full);
     }
 }
@@ -65,7 +66,7 @@ void Buffer::waitNotEmpty(){
 void Buffer::waitEmpty(){
     int emptyVal = 1;
     while(emptyVal<=0){
-        Sleep(1);
+        sleep(1);
         sem_getvalue(&empty, &emptyVal);
     }
 }
