@@ -11,7 +11,7 @@
 
     - Java Monitors Version 
     
-*As we are only two people in our group, we split the work 50/50. One person did part 1 and the other did part 2. We worked on the logic together and helped each other with debugging *
+*As we are only two people in our group, we split the work 50/50. One person did part 1 and the other did part 2. We worked on the logic together and helped each other with debugging. The monitors implementation was a lot easier than the semaphores implentation as pthreads was more complicated to use. The monitors implementation did not have as much thinking on the lock complexities, and thus was able to structure the code much easier. *
 
 ## Code Design 
 
@@ -44,8 +44,21 @@ The main method initializes the buffer and executes the threads. It asks the use
       - All threads are notified that job has been removed 
     
   
-  ### Part 2: C++ Semaphores Implementation 
-
+  ### Part 2: Java Build & Executing Instructions 
+  
+  * Open the Java folder on command line 
+  * Use javac to compile all the files in the Java folder as classes 
+      ``` javac CBuffer.java Job.Java producerConsumer.java ```
+  * Go back one directory 
+       ```cd .. ```
+  * Execute the main class 
+      ``` java Java.producerConsumer ```
+      - The command line will ask for three inputs, type them in. They are all suppsed to be ints. 
+            - number of threads 
+            - number of requests program executes
+            - maximum request size
+      - The program will automatically print statements regarding the stage of the program 
+   * The producer sleep time exists as a global variable known as sleepT and is in the run method of the producer master class. 
  
 
 ## Online Resources 
