@@ -2,17 +2,21 @@
 #include "global.h"
 #include <cstdlib>
 
-int Consumer::GetFromQueue(){
+Job Consumer::GetFromQueue(){
     global_buffer.waitNotEmpty();
-    int nextJob = global_buffer.pull();
+    Job nextJob = global_buffer.pull();
     return nextJob;
 }
 
 void Consumer::run(){
     while(true){
         try{
-            int currentJob = GetFromQueue();
-            Sleep(currentJob);
+            Job currentJob = GetFromQueue();
+            time_t start = time(0);
+            std::cout << "Thread #" << getID() << " started job #" << currentJob.getID() << " at " << ctime(&start);
+            Sleep(currentJob.getLength);
+            time_t end = time(0);
+            std::cout << "Thread #" << getID() << " finished job #" << currentJob.getID() << " at " << ctime(&end);
         }catch(...){
             pthread_exit(NULL);
         }

@@ -3,14 +3,15 @@
 #include "Producer.h"
 #include "global.h"
 #include <iostream>
+using namespace std;
 
 int main(){
     int buffer_size;
     int max_job_length;
-    std::cout << "Enter size of buffer:  ";
-    std::cin >> buffer_size;
-    std::cout << "Enter max job length:  ";
-    std::cin >> max_job_length;
+    cout << "Enter size of buffer:  ";
+    cin >> buffer_size;
+    cout << "Enter max job length:  ";
+    cin >> max_job_length;
 
     //create a buffer of size given by user
     Buffer temp(buffer_size);

@@ -1,12 +1,12 @@
 #include "Producer.h"
-#include <cstdlib>
 
 Producer::Producer(int max_job_length){
     maxJobLength = max_job_length;
 }
 
-int Producer::CreateJob(){
-    return (rand()%maxJobLength) + 1;
+Job Producer::CreateJob(){
+    Job newJob((rand()%maxJobLength) + 1);
+    return newJob;
 }
 
 void Producer::wait(){
@@ -15,7 +15,9 @@ void Producer::wait(){
 
 void Producer::run(){
     while(true){
-        int newJob = CreateJob();
+        Job newJob = CreateJob();
+        time_t created = time(0);
+        cout << "Producer created job #" << newJob.getID << " at " << ctime(&created);
         global_buffer.push(newJob);
         wait();
     }

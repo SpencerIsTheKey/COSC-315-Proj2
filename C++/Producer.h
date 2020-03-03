@@ -1,8 +1,12 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <windows.h>
+#include <ctime>
 #include "Buffer.h"
 #include "global.h"
+#include <iostream>
+#include <cstdlib>
+using namespace std;
 #ifndef PRODUCER_H
 #define PRODUCER_H
 class Producer{
@@ -15,6 +19,6 @@ class Producer{
 
     void run();
     void wait();
-    int CreateJob();
+    Job CreateJob();
 };
 #endif

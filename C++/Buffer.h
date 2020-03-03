@@ -2,6 +2,7 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <windows.h>
+#include "Job.h"
 #ifndef BUFFER_H
 #define BUFFER_H
 
@@ -11,7 +12,7 @@ private:
     int front;
     int rear;
     int bufLen;
-    std::vector<int> Q;
+    std::vector<Job> Q;
     sem_t lock;
     sem_t full;
     sem_t empty;
@@ -28,7 +29,7 @@ public:
     bool isEmpty(){return bufLen == 0;}
 
 
-    void push(int jobLength);
+    void push(Job job);
     int pull();
     void waitNotEmpty();
     void waitNotFull();
