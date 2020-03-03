@@ -42,16 +42,20 @@ public class producerConsumer {
         public void run(){
             try {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                int rid =0; 
-                while(true){
-                    int t = createJob();
+                int rid = 1; 
+                boolean exit = true; 
+                while(exit){
+                    int t = createJob(); //creates job, job object keeps track of request id and length of job 
                     System.out.println("Producer: produced request id: " + rid + ", length " + t+ " at time " + dtf.format(LocalDateTime.now()));
                     Job job = new Job(t,rid); 
-                    cb.insert(job);
+                    cb.insert(job); // inserts job into memory buffer, method in cbuffer class 
                     rid++; // increment request id
                     int sleepT = (int) (Math.random() * 10); 
                     System.out.println("Producer: sleeping for "+ sleepT+ " seconds");
                     Thread.sleep(sleepT);
+                    if(rid == 11){ // the thread will stop executing after 10 Ids - stop scenario 
+                        exit = false; 
+                    }
                 }
             } catch (Exception ie) {
 
@@ -70,12 +74,16 @@ public class producerConsumer {
         public void run(){
             try {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                while(true){
+                boolean exit = true; //controls how long the thread will run 
+                while(exit){
                     
-                    Job get = cb.remove(); 
-                    System.out.println("Consumer "+ i + ": assigned request ID"+ get.reqId+ ", processing request for the next "+ get.jobLength+" seconds, current time is  "+ dtf.format(LocalDateTime.now()));
-                    Thread.sleep(get.jobLength);
-                    System.out.println("Consumer"+ i + ": completed request ID"+get.reqId + " at time"+ dtf.format(LocalDateTime.now()));
+                    Job get = cb.remove(); //removes job length from buffer 
+                    System.out.println("Consumer "+ i + ": assigned request ID "+ get.reqId+ ", processing request for the next "+ get.jobLength+" seconds, current time is  "+ dtf.format(LocalDateTime.now()));
+                    Thread.sleep(get.jobLength); // signals consumer is consuming job for that period 
+                    System.out.println("Consumer "+ i + ": completed request ID "+get.reqId + " at time "+ dtf.format(LocalDateTime.now()));
+                    if(get.reqId == 11){ // the thread will stop executing after 10 Ids - stop scenario 
+                        exit = false; 
+                    }
                 }
             } catch (Exception e) {
                 System.out.println("Consumer Exception: " + e.getMessage());
@@ -85,7 +93,8 @@ public class producerConsumer {
     }
 
     public static int createJob() {
-        
+        //Creates random job length for each job 
+
         Random r = new Random();
         int rm = r.nextInt(m) + 1;
         

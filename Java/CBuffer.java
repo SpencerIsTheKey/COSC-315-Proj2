@@ -48,7 +48,7 @@ public boolean isEmpty(){
 }
 
 //insert a job(duration of job) 
-public synchronized void insert(Job job){
+public synchronized void insert(Job job){ //check if full, if full then wait till buffer is empty 
     while(isFull()){
         try {
             wait();
@@ -56,35 +56,28 @@ public synchronized void insert(Job job){
             System.out.println("Exception in insert while waiting");
         }
     }
-    //if(!isFull()){
+    
         buflen++; 
         rear = (rear +1) % maxSize; 
         buf[rear] = job; 
         notifyAll();
-   /* }else{
-        System.out.println("Error : Underflow Exception");
-    }*/ 
     
 }
 
 public synchronized Job remove() {
 
-    while(isEmpty()){
+    while(isEmpty()){ //checks to see if buffer is empty, if it is then wait till full 
         try {
             wait();
         } catch (Exception e) {
             System.out.println("Exception in remove while waiting");
         }
     }
-    //if(!isEmpty()){
         buflen--; 
         front = (front +1) % maxSize; 
         notifyAll();
         return buf[front]; 
-    /*}else{
-        System.out.println("Error : Underflow Exception");
-        return ' '; 
-    } */
+   
     
 }
 
