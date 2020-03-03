@@ -11,7 +11,7 @@ Buffer::Buffer(int length){
     sem_init(&full, 0, 1);
     sem_init(&empty, 0, 1);
 }
-void Buffer::push(int jobLength){
+void Buffer::push(Job job){
     sem_wait(&lock);
     if(!isFull()){
         sem_wait(&lock);
@@ -20,7 +20,7 @@ void Buffer::push(int jobLength){
         //move rear over by one
         rear = (rear + 1) % maxSize;
         //add new job to the end of the buffer
-        Q[rear] = jobLength;
+        Q[rear] = job;
         sem_post(&lock);
         //if there are threads waiting for the queue to not be empty, signal to wake one up
         int emptyVal;
@@ -32,14 +32,14 @@ void Buffer::push(int jobLength){
     sem_post(&lock);
 }
 
-int Buffer::pull(){
+Job Buffer::pull(){
     sem_wait(&lock);
     //decrement elemnt tracker
     bufLen--;
     //move the front pointer over by one
     front = (front + 1) % maxSize;
 
-    int pulled = Q[front];
+    Job pulled = Q[front];
     sem_post(&lock);
     //if there are threads waiting for the queue to not be full, signal to wake one up
     int fullVal;

@@ -5,6 +5,9 @@
 #include <iostream>
 using namespace std;
 
+int Consumer::Tid = 0;
+int Job::id = 0;
+
 int main(){
     int buffer_size;
     int max_job_length;
@@ -13,7 +16,7 @@ int main(){
     cout << "Enter max job length:  ";
     cin >> max_job_length;
 
-    //create a buffer of size given by user
+    //create a buffer of size given by users
     Buffer temp(buffer_size);
     //assign global_buffer to be the created and initialized buffer
     global_buffer = temp;

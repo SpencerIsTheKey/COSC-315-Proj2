@@ -30,7 +30,7 @@ public:
 
 
     void push(Job job);
-    int pull();
+    Job pull();
     void waitNotEmpty();
     void waitNotFull();
     void waitEmpty();
