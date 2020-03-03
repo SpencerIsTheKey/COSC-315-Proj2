@@ -39,9 +39,9 @@ The main method initializes the buffer and executes the threads. It asks the use
     - All threads are notified that job has been added 
     
    * public synchronized Job remove() {...) //buffer class method - remove job 
-    - Checks if buffer empty, if empty then wait till buffer has something in it 
-    - Decrements lenfth of buffer when job object is removed from fromt of the array 
-    - All threads are notified that job has been removed 
+      - Checks if buffer empty, if empty then wait till buffer has something in it 
+      - Decrements lenfth of buffer when job object is removed from fromt of the array 
+      - All threads are notified that job has been removed 
     
   
   ### Part 2: C++ Semaphores Implementation 
