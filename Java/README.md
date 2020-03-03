@@ -4,7 +4,7 @@
 
 * **Spencer Ke** - 
 
-   - C++ Sempahores Version 
+   - C++ Sempahores Version (50%) 
   
  
 * **Mishal Hasan** - 20647160
