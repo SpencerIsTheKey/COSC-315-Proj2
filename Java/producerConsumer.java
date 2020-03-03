@@ -12,48 +12,54 @@ import java.time.format.DateTimeFormatter;
 public class producerConsumer {
     static int n,m; /* Buffer capacity,max job length */
     static CBuffer cb;
+    static int sleepT;
+    static int reqEnd; 
 
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
-        System.out.println("Enter size of buffer");
+        System.out.println("Enter size of buffer: ");
         n = scan.nextInt();
 
         cb = new CBuffer(n);
 
-        System.out.println("Enter maximum job length");
+        System.out.println("Enter maximum job length: ");
         m = scan.nextInt();
 
+        System.out.println("Enter number of requests after program terminates: ");
+        reqEnd = scan.nextInt(); 
+
         scan.close();
-        
-        /*Initializing Producer and consumer threads*/ 
+
+        /* Initializing Producer and consumer threads */
 
         ExecutorService executor = Executors.newFixedThreadPool(n);
-        executor.execute(new ProducerMaster());       
-        int ctn; //consumer thread counts initialization 
-        for(ctn=1;ctn<=n;ctn++){
+        executor.execute(new ProducerMaster());
+        int ctn; // consumer thread counts initialization
+        for (ctn = 1; ctn <= n; ctn++) {
             executor.execute(new ConsumerSlave(ctn));
         }
 
-        
     }
 
-    private static class ProducerMaster implements Runnable{
-        public void run(){
+    private static class ProducerMaster implements Runnable {
+
+        public void run() {
             try {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                int rid = 1; 
-                boolean exit = true; 
-                while(exit){
-                    int t = createJob(); //creates job, job object keeps track of request id and length of job 
-                    System.out.println("Producer: produced request id: " + rid + ", length " + t+ " at time " + dtf.format(LocalDateTime.now()));
-                    Job job = new Job(t,rid); 
-                    cb.insert(job); // inserts job into memory buffer, method in cbuffer class 
+                int rid = 1;
+                boolean exit = true;
+                while (exit) {
+                    int t = createJob(); // creates random job lengths from between 1-M
+                    System.out.println("Producer: produced request id: " + rid + ", length " + t + " at time "
+                            + dtf.format(LocalDateTime.now()));
+                    Job job = new Job(t, rid); // creates job object to be inserted into memory
+                    cb.insert(job); // inserts job into memory buffer, method in cbuffer class
                     rid++; // increment request id
-                    int sleepT = (int) (Math.random() * 10); 
+                    sleepT = (int) (Math.random() * 10);
                     System.out.println("Producer: sleeping for "+ sleepT+ " seconds");
                     Thread.sleep(sleepT);
-                    if(rid == 11){ // the thread will stop executing after 10 Ids - stop scenario 
+                    if(rid == reqEnd){ // the thread will stop executing after # specified in reqEnd  by user - stop scenario 
                         exit = false; 
                     }
                 }
