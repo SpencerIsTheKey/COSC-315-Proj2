@@ -1,8 +1,7 @@
 #include "Producer.h"
-#include <cstlib>
+#include <cstdlib>
 
-Producer::Producer(int number_of_jobs, int max_job_length){
-    numJobs = number_of_jobs;
+Producer::Producer(int max_job_length){
     maxJobLength = max_job_length;
 }
 
@@ -11,13 +10,13 @@ int Producer::CreateJob(){
 }
 
 void Producer::wait(){
-    sleep((rand()%10) + 1);
+    Sleep((rand()%10) + 1);
 }
 
-void Producer::run(Buffer buffer){
-    for(int i = 0; i < numJobs; i++){
+void Producer::run(){
+    while(true){
         int newJob = CreateJob();
-        buffer.push(newJob);
+        global_buffer.push(newJob);
         wait();
     }
     //buffer.waitEmpty();

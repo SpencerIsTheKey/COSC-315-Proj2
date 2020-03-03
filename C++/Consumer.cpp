@@ -1,16 +1,18 @@
 #include "Consumer.h"
+#include "global.h"
+#include <cstdlib>
 
-int Consumer::GetJob(Buffer buffer){
-    buffer.waitNotEmpty();
-    int nextJob = buffer.pull();
+int Consumer::GetFromQueue(){
+    global_buffer.waitNotEmpty();
+    int nextJob = global_buffer.pull();
     return nextJob;
 }
 
-void Consumer::run(Buffer buffer){
+void Consumer::run(){
     while(true){
         try{
-            int currentJob = GetJob(buffer);
-            sleep(currentJob);
+            int currentJob = GetFromQueue();
+            Sleep(currentJob);
         }catch(...){
             pthread_exit(NULL);
         }

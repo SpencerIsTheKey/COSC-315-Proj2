@@ -1,6 +1,7 @@
 #include <vector>
 #include <pthread.h>
 #include <semaphore.h>
+#include <windows.h>
 #ifndef BUFFER_H
 #define BUFFER_H
 
@@ -15,7 +16,7 @@ private:
     sem_t full;
     sem_t empty;
 public:
-    Buffer(int n);
+    Buffer(int length);
 
     int getLength(){
         sem_wait(&lock);

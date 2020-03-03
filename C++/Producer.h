@@ -1,6 +1,8 @@
 #include <pthread.h>
 #include <unistd.h>
+#include <windows.h>
 #include "Buffer.h"
+#include "global.h"
 #ifndef PRODUCER_H
 #define PRODUCER_H
 class Producer{
@@ -8,10 +10,10 @@ class Producer{
     int maxJobLength;
     pthread_t thread;
 
-    Producer(int number_of_jobs, int max_job_length);
+    public:Producer(int max_job_length);
 
 
-    void run(Buffer buffer);
+    void run();
     void wait();
     int CreateJob();
 };
