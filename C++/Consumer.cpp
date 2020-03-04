@@ -6,18 +6,13 @@ Consumer::Consumer(int id){
     Tid = id;
 }
 
-FakeJob Consumer::GetFromQueue(){
-    FakeJob nextJob = global_buffer.pull();
-    return nextJob;
-}
-
 void Consumer::run(){
     while(true){
-        FakeJob currentJob = GetFromQueue();
+        setThreadJob(global_buffer.pull());
         time_t start = time(0);
-        std::cout << "Thread #" << Tid << " started job #" << currentJob.getID() << " at " << ctime(&start);
-        sleep(currentJob.getLength());
+        std::cout << "Thread #" << getTID() << " started job #" << getThreadJob().getID() << " at " << ctime(&start);
+        sleep(getThreadJob().getLength());
         time_t end = time(0);
-        std::cout << "Thread #" << Tid << " finished job #" << currentJob.getID() << " at " << ctime(&end);
+        std::cout << "Thread #" << getTID() << " finished job #" << getThreadJob().getID() << " at " << ctime(&end);
     }
 }

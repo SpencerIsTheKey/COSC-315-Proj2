@@ -8,7 +8,7 @@ using namespace std;
 
 Buffer global_buffer;
 
-int FakeJob::id = 0;
+int FakeJob::num_jobs = 0;
 
 void *masterThread(void *arg){
     Producer * pointer = static_cast<Producer *>(arg);
@@ -26,10 +26,13 @@ void *slaveThread(void *arg){
 int main(){
     int buffer_size;
     int max_job_length;
+    int exitTime;
     cout << "Enter size of buffer:  ";
     cin >> buffer_size;
     cout << "Enter max job length:  ";
     cin >> max_job_length;
+    cout << "Enter time to exit:  ";
+    cin >> exitTime;
 
     //create a buffer of size given by users
     Buffer temp(buffer_size);
@@ -39,8 +42,10 @@ int main(){
     Producer master(max_job_length);
     Consumer slaves[buffer_size];
 
+
+    //
     for(int i = 0; i < buffer_size;i++)
-        slaves[i].Tid = i+1;
+        slaves[i].setTID(i+1);
 
     int ret;
     ret = pthread_create(&master.thread, NULL, &masterThread, &master);
@@ -52,7 +57,7 @@ int main(){
         if(ret!=0)  cout << "Creating slave thread failed" << endl;
     }
 
-    sleep(30);
+    sleep(exitTime);
 
     return 0;
 }

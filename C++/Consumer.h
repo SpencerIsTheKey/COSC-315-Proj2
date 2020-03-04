@@ -4,16 +4,24 @@
 #include <iostream>
 #include "Buffer.h"
 #include "global.h"
+#include "FakeJob.h"
 #ifndef CONSUMER_H
 #define CONSUMER_H
 class Consumer{
-public:
+private:
     int Tid;
+    FakeJob threadJob;
+
+public:
     pthread_t thread;
     Consumer(){Tid = -1;}
     Consumer(int id);
 
     void run();
-    FakeJob GetFromQueue();
+
+    int getTID(){return Tid;}
+    void setTID(int id){Tid=id;}
+    FakeJob getThreadJob(){return threadJob;}
+    void setThreadJob(FakeJob job){threadJob = job;}
 };
 #endif

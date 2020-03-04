@@ -5,12 +5,12 @@ Producer::Producer(int max_job_length){
 }
 
 FakeJob Producer::CreateJob(){
-    FakeJob newJob((rand()%maxJobLength) + 1);
+    FakeJob newJob((rand()%getMaxLength()) + 1);
     return newJob;
 }
 
 void Producer::wait(){
-    int sleepPeriod = (rand()%5) + 1;
+    int sleepPeriod = (rand()%sleepT) + 1;
     cout << "Producer going to sleep for " << sleepPeriod << " seconds" << endl;
     sleep(sleepPeriod);
 }

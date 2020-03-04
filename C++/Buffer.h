@@ -31,7 +31,6 @@ public:
     bool isFull(){return bufLen == maxSize;}
     bool isEmpty(){return bufLen == 0;}
 
-
     void push(FakeJob job);
     FakeJob pull();
 
