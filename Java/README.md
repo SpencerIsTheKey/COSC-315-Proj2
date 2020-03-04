@@ -2,12 +2,12 @@
 
 ## Contributors
 
-* **Spencer Ke** - 44343168
+* **Spencer Ke** - 44343168 (50%)
 
    - C++ Sempahores Version 
   
  
-* **Mishal Hasan** - 20647160
+* **Mishal Hasan** - 20647160 (50%)
 
     - Java Monitors Version 
     
