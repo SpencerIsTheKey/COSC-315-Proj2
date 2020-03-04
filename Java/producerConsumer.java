@@ -43,7 +43,7 @@ public class producerConsumer {
     }
 
     private static class ProducerMaster implements Runnable {
-
+        
         public void run() {
             try {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -58,7 +58,7 @@ public class producerConsumer {
                     rid++; // increment request id
                     sleepT = (int) (Math.random() * 10);
                     System.out.println("Producer: sleeping for "+ sleepT+ " seconds");
-                    Thread.sleep(sleepT);
+                    Thread.sleep(sleepT*1000);
                     if(rid == reqEnd){ // the thread will stop executing after # specified in reqEnd  by user - stop scenario 
                         exit = false; 
                     }
@@ -76,7 +76,7 @@ public class producerConsumer {
 
              i = ct; 
         }
-
+        
         public void run(){
             try {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -85,9 +85,9 @@ public class producerConsumer {
                     
                     Job get = cb.remove(); //removes job length from buffer 
                     System.out.println("Consumer "+ i + ": assigned request ID "+ get.reqId+ ", processing request for the next "+ get.jobLength+" seconds, current time is  "+ dtf.format(LocalDateTime.now()));
-                    Thread.sleep(get.jobLength); // signals consumer is consuming job for that period 
+                    Thread.sleep(get.jobLength*1000); // signals consumer is consuming job for that period 
                     System.out.println("Consumer "+ i + ": completed request ID "+get.reqId + " at time "+ dtf.format(LocalDateTime.now()));
-                    if(get.reqId == 11){ // the thread will stop executing after 10 Ids - stop scenario 
+                    if(get.reqId == reqEnd){ // the thread will stop executing after 10 Ids - stop scenario 
                         exit = false; 
                     }
                 }
