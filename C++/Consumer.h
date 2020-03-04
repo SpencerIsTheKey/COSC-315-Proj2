@@ -7,15 +7,13 @@
 #ifndef CONSUMER_H
 #define CONSUMER_H
 class Consumer{
-    static int Tid;
-    
-
 public:
+    int Tid;
     pthread_t thread;
-    Consumer();
+    Consumer(){Tid = -1;}
+    Consumer(int id);
 
     void run();
     FakeJob GetFromQueue();
-    int getID(){return Tid;}
 };
 #endif

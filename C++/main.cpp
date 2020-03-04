@@ -3,26 +3,25 @@
 #include "Producer.h"
 #include "global.h"
 #include <iostream>
+#include <pthread.h>
 using namespace std;
 
 Buffer global_buffer;
 
-int Consumer::Tid = 0;
 int FakeJob::id = 0;
 
 void *masterThread(void *arg){
-    Producer * master = static_cast<Producer *>(arg);
-    cout << &master;
-    return;
+    Producer * pointer = static_cast<Producer *>(arg);
+    Producer master = *pointer;
+    master.run();
+    return (void *)  "Done";
 }
 void *slaveThread(void *arg){
-    Consumer * slave = static_cast<Consumer *>(arg);
-    return;
+    Consumer * pointer = static_cast<Consumer *>(arg);
+    Consumer slave = *pointer;
+    slave.run();
+    return (void *) "Done";
 }
-
-
-
-
 
 int main(){
     int buffer_size;
@@ -40,7 +39,8 @@ int main(){
     Producer master(max_job_length);
     Consumer slaves[buffer_size];
 
-    cout << &master;
+    for(int i = 0; i < buffer_size;i++)
+        slaves[i].Tid = i;
 
     int ret;
     ret = pthread_create(&master.thread, NULL, &masterThread, &master);
@@ -48,9 +48,11 @@ int main(){
 
 
     for(int i = 0; i < buffer_size; i++){
-        ret = pthread_create(&slave[i].thread, NULL, &slaveThread, &slave[i]);
+        ret = pthread_create(&slaves[i].thread, NULL, &slaveThread, &slaves[i]);
         if(ret!=0)  cout << "Creating master thread failed" << endl;
     }
+
+    sleep(30);
 
     return 0;
 }

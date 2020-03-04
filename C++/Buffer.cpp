@@ -1,4 +1,5 @@
 #include "Buffer.h"
+#include <semaphore.h>
 #include <cstdlib>
 #include <iostream>
 
@@ -38,8 +39,6 @@ FakeJob Buffer::pull(){
     bufLen--;
     //move the front pointer over by one
     front = (front + 1) % maxSize;
-
-    FakeJob pulled = Q[front];
     sem_post(&lock);
     //if there are threads waiting for the queue to not be full, signal to wake one up
     int fullVal;
@@ -47,7 +46,7 @@ FakeJob Buffer::pull(){
     if(fullVal < 1){
         sem_post(&empty);
     }
-    return pulled;
+    return Q[front];
 }
 
 void Buffer::waitNotFull(){
