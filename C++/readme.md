@@ -34,8 +34,10 @@ To prevent the producer thread from overwriting jobs in the buffer, the `push()`
     - `private` variables to facilitate the functioning of the buffer including `int maxSize`, `int front`, `int rear`, `int bufLen`, and `std::vector<FakeJob> Q`.
     - `sem_t lock, sem_t full, sem_t empty` are the binary semaphores used to control synchronization.
     - `public void push(FakeJob job)` is the method used by the `Producer` class to add jobs to the buffer. The logic for this method is as follows:
+    
         If the buffer is full, wait for an element to get pulled out. Lock the `lock` semaphore and add `job` to the rear of the buffer. If there are any threads waiting for a `FakeJob` to be in the buffer, signal using `sem_post` to wake them up. Unlock the `lock` semaphore.
     - `public void pull()` is the method used by the `Consumer` class to take jobs from the buffer. The logic for this method is as follows:
+    
         If the buffer is empty, wait for a job to get added. Lock the `lock` semaphore and remove the element at index `front`. If there are any threads waiting for an element to be taken from the buffer, signal using `sem_post` to wake them up. unlock the `lock` semaphore. Return the `FakeJob` instance that was pulled from the front of the buffer.
 * `global.h` contains the `global_buffer` instance and is included in all header files except the `Buffer.h` to allow global access to this instance.
 * `Producer.h` contains the definition of the `Producer` class. This definition is expanded upon in `Producer.cpp`. The class conatins:
