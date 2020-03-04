@@ -34,9 +34,6 @@ public:
 
     void push(FakeJob job);
     FakeJob pull();
-    void waitNotEmpty();
-    void waitNotFull();
-    void waitEmpty();
 
 };
 #endif

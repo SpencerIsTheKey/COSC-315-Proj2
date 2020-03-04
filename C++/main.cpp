@@ -40,7 +40,7 @@ int main(){
     Consumer slaves[buffer_size];
 
     for(int i = 0; i < buffer_size;i++)
-        slaves[i].Tid = i;
+        slaves[i].Tid = i+1;
 
     int ret;
     ret = pthread_create(&master.thread, NULL, &masterThread, &master);
@@ -49,7 +49,7 @@ int main(){
 
     for(int i = 0; i < buffer_size; i++){
         ret = pthread_create(&slaves[i].thread, NULL, &slaveThread, &slaves[i]);
-        if(ret!=0)  cout << "Creating master thread failed" << endl;
+        if(ret!=0)  cout << "Creating slave thread failed" << endl;
     }
 
     sleep(30);
