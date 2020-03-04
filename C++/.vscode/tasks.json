@@ -1,0 +1,24 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "g++.exe build active file",
+            "type": "shell",
+            "command": "g++",
+            "args":["-g", "${fileDirname}\\**.cpp", "${fileDirname}\\**.h", "-o", "${fileDirname}\\${fileBasenameNoExtension}.exe"],
+            "options":{
+                "cwd":"C:\\MinGW\\bin",
+                "shell": {
+                    "executable": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+                }
+            },
+            "problemMatcher":["$gcc"],
+            "group":{
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
