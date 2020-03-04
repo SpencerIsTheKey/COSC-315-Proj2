@@ -2,9 +2,9 @@
 
 ## Contributors
 
-* **Spencer Ke** - 
+* **Spencer Ke** - 44343168
 
-   - C++ Sempahores Version (50%) 
+   - C++ Sempahores Version 
   
  
 * **Mishal Hasan** - 20647160
