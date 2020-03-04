@@ -46,12 +46,14 @@ To prevent the producer thread from overwriting jobs in the buffer, the `push()`
     - `public FakeJob CreateJob()` creates and returns a new instance of `FakeJob` with a length between 1 and the maximum job length allowed
     - `public void wait()` finds a random number for how long the producer thread will go to sleep for, prints a message to indicate the producer is going to sleep for the given amount of time and then calls the `sleep()` function with the appropriate value.
     - `public void run()` holds the logic for what a Producer thread is to do when running. This is as follows:
+    
         In a while loop set to `true`, a new job is created by the `CreateJob()` method. The time is recorded and amessage is printed out to indicate the producer created a job with a given length at the time indicated. The new job is pushed into the buffer via the `Buffer::push()` method og `global_buffer`. The `wait()` function is then called. Repeat everything inside the while loop.
 * `Consumer.h` contains the definition for the `Consumer` class. The definition is expanded upon in `Consumer.cpp`. The class contains:
     - `private int Tid` holds the id of the consumer thread.
     - `private FakeJob threadJob` holds the job that the `Consumer` trhead is currently working on.
     - `public pthread_t thread` holds the thread to run the Producer methods. I would have preferred for this to be a private variable, but it needed to be public to allow pthread_create to access it.
     - `public void run()` holds the logic for what a Consumer thread is to do while running. This is as follows:
+    
         In a while loop set to `true`, a job is pulled out of the buffer via the `Buffer::pull()` method and stored in the `threadJob` attridute. The time is recorded and a message is printed to indicate which thread has taken which job at what time. The job is processed, and then the time is recorded and a message is printed to idicate which thread completed which job at what time. Repeat everything inside the while loop.
 
 ### Part 2: C++ Build & Executing Instructions
@@ -68,6 +70,10 @@ To prevent the producer thread from overwriting jobs in the buffer, the `push()`
 
 # Online Resources
 <https://www.sanfoundry.com/java-program-circular-buffer/>
+
+<https://www.bogotobogo.com/cplusplus/multithreading_pthread.php/>
+
+<https://pubs.opengroup.org/onlinepubs/007908799/xsh/semaphore.h.html/>
 
 
 
