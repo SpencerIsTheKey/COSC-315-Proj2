@@ -3,9 +3,6 @@
 #include <cstdlib>
 
 Consumer::Consumer(){
-    int ret;
-    ret = pthread_create(&thread, &Consumer::run, NULL);
-    if(ret!=0)  cout << "Creating slave thread failed" << endl;
     Tid++;
 }
 

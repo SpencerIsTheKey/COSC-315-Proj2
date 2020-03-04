@@ -2,13 +2,6 @@
 
 Producer::Producer(int max_job_length){
     maxJobLength = max_job_length;
-    
-    //create pointer to run function
-    void (Producer::*start)() = Producer::run;
-    
-    int ret;
-    ret = pthread_create(&thread, &Producer::run, NULL);
-    if(ret!=0)  cout << "Creating master thread failed" << endl;
 }
 
 FakeJob Producer::CreateJob(){
@@ -30,7 +23,4 @@ void Producer::run(){
         global_buffer.push(newJob);
         wait();
     }
-    //buffer.waitEmpty();
-    //delete buffer;
-    pthread_exit(NULL);
 }

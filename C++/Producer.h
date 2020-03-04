@@ -18,7 +18,7 @@ public:
     Producer(int max_job_length);
 
 
-    void *run();
+    void run();
     void wait();
     FakeJob CreateJob();
 };
